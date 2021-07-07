@@ -1,45 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classes from './App2.module.css';
-import { ProductData } from './data/data';
 import ProductPreview from './ProductPreview';
-const logo = "https://governmentjobswork.com/wp-content/uploads/2020/10/Amazon-Jobs.png";
-
+import ProductDetails from './ProductDetails';
+import Topbar from './Topbar';
+import { ProductData } from './data/data'
 
 
 export default function App2() {
+    const [productData, setproductData] = useState(ProductData);
+    const [previewImagePos, setPreviewImagePos] = useState(0);
+    const [featurePos, setfeaturePos] = useState(0);
+    
+
+    const onColorOPtionClick = (pos) => {
+        setPreviewImagePos(pos);
+    }
+    const onFeatureItemClick = (pos) => {
+        setfeaturePos(pos);
+    }
+    // console.log(details);
+
     return (
         <div className="App2">
             <header className="App-header">
-                <nav className={classes.topbar}>
-                    <img src={logo} alt="Amazon Logo" />
-                </nav>
+                <Topbar />
             </header>
             <div className={classes.mainContainer}>
                 <div className={classes.productPreview}>
-                    <ProductPreview />
+                    <ProductPreview previewImage={ProductData.colorOptions[previewImagePos].imageUrl} featurePos={featurePos} />
                 </div>
-
-
                 <div className={classes.productData}>
-                    <h1 className={classes.productTitle}>{ProductData.title} </h1>
-                    <p className={classes.productDescription}>{ProductData.description} </p>
-                    <h3 className={classes.selectionHeading}>Select Color</h3>
-                    <div>
-                        <img className={[classes.productionImage, classes.selectedProductImage].join(" ")} src="https://imgur.com/iOeUBV7.png"
-                            alt="Black Colored Watch" />
-                        <img className={classes.productionImage} src="https://imgur.com/PTgQlim.png"
-                            alt="Red Colored Watch" />
-                        <img className={classes.productionImage} src="https://imgur.com/Mplj1YR.png"
-                            alt="Blue Colored Watch" />
-                        <img className={classes.productionImage} src="https://imgur.com/xSIK4M8.png"
-                            alt="Purple Colored Watch" />
-                    </div>
-                    <h3 className={classes.selectionHeading}>Features</h3>
-                    <div>
-                        <button className={[classes.featureItem, classes.selectedFeatureItem].join(' ')}>Time</button>
-                        <button className={classes.featureItem}>Heart Rate</button>
-                    </div>
-                    <button className={classes.primaryButton}>Buy Now</button>
+                    <ProductDetails data={productData} previewImagePos={previewImagePos} onColorOPtionClick={onColorOPtionClick}
+                     onFeatureItemClick={onFeatureItemClick} featurePos={featurePos} />
                 </div>
             </div>
         </div>
